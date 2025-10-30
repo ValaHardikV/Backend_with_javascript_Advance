@@ -1,0 +1,16 @@
+{
+  "name": "backend_project_all_details",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "javascript",
+    "backend"
+  ],
+  "license": "ISC",
+  "author": "Hardik Vala",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
