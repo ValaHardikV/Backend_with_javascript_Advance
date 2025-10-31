@@ -24,12 +24,14 @@ export {asyncHandler}
 
 */
 
-//method-2
+// ------------------ METHOD 2 ------------------
 
+// This is another (shorter) way to handle async errors in Express
 const asyncHandler = (fn) => {
-    return (req, res, next) => {
-        Promise.resolve(fn(req, res, next)).catch((err) => next(err));
-    }
-}
+  return (req, res, next) => {
+    // Run the async function and handle errors using Promise.catch()
+    Promise.resolve(fn(req, res, next)).catch((err) => next(err));
+  };
+};
 
-export {asyncHandler}
+export { asyncHandler };

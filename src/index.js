@@ -43,25 +43,28 @@ const app = express()
 */
 
 
-//method-2 to connect database
-//write function in db folder and import here
+// ---------------- Method 2: Connect Database Using Separate DB File ----------------
 
-import dotenv from "dotenv"
+// Import required packages and files
+import dotenv from "dotenv";
 import connectDB from "./db/index.js";
-import {app} from "./app.js"
+import { app } from "./app.js";
 
+// Load environment variables from the .env file
 dotenv.config({
-    path: './env'
-})
+  path: './env' // path to your .env file
+});
 
+// Connect to MongoDB
 connectDB()
-
-.then(() => {
-    //now once database connected , now our application read from database
-    app.listen(process.env.PORT || 8000, () => { //if port not found then connect 8000 port
-        console.log(`Server is running at port : ${process.env.PORT}`);
-    }); 
-})
-.catch((err) => {
-    console.log("Mongodb connection failed !!!", err)
-})
+  .then(() => {
+    // Once database connection is successful,
+    // start the Express server and listen on the given port
+    app.listen(process.env.PORT || 8000, () => {
+      console.log(`Server is running at port : ${process.env.PORT}`);
+    });
+  })
+  .catch((err) => {
+    // If database connection fails, show error in console
+    console.log("MongoDB connection failed !!!", err);
+  });
