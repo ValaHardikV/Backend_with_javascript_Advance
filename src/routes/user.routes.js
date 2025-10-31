@@ -1,7 +1,8 @@
 // Import required modules
 import { Router } from "express"; // Express Router is used to create mini route-handlers
-import { registerUser } from "../controllers/user.controller.js"; // Import the controller function
+import { registerUser ,loginUser, logoutUser } from "../controllers/user.controller.js"; // Import the controller function
 import { upload } from "../middlewares/multer.middleware.js"; // Import multer middleware for file uploads
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 
 
@@ -38,6 +39,10 @@ router.route("/register").post(
 );
 
 
+router.route("/login").post(loginUser)
+
+//secure route
+router.route("/logout").post(verifyJWT, logoutUser)
 
 // -------------------- EXPORT ROUTER --------------------
 // Export this router so it can be imported into the main app file (app.js)
