@@ -1,13 +1,45 @@
-import { Router } from "express";
-import { registerUser } from "../controllers/user.controller.js";
+// Import required modules
+import { Router } from "express"; // Express Router is used to create mini route-handlers
+import { registerUser } from "../controllers/user.controller.js"; // Import the controller function
+import { upload } from "../middlewares/multer.middleware.js"; // Import multer middleware for file uploads
 
-// Create a new router object from Express
+
+
+// -------------------- CREATE ROUTER --------------------
+// Create a new router object using Express
+// Router helps organize routes into separate files (cleaner code)
 const router = Router();
 
-// Define the route for user registration
-// When someone sends a POST request to "/register",
-// the registerUser controller function will be called
-router.route("/register").post(registerUser);
 
-// Export the router so it can be used in the main app
+
+// -------------------- USER REGISTRATION ROUTE --------------------
+// Define a POST route for user registration
+// When someone sends a POST request to "/register",
+// first the 'upload' middleware will handle file uploads (avatar & coverImage),
+// then the 'registerUser' controller will handle registration logic.
+
+router.route("/register").post(
+
+  // 'upload.fields()' is used to upload multiple files with different field names
+  upload.fields([
+    {
+      name: "avatar",    // Field name for user's profile picture
+      maxCount: 1        // Only 1 avatar file allowed
+    },
+    {
+      name: "coverImage", // Field name for user's cover image
+      maxCount: 1         // Only 1 cover image allowed
+    }
+  ]),
+
+  // After files are uploaded successfully,
+  // the 'registerUser' function will run to save user info in the database
+  registerUser
+);
+
+
+
+// -------------------- EXPORT ROUTER --------------------
+// Export this router so it can be imported into the main app file (app.js)
+// The main app will use this router at a specific path (like /api/v1/users)
 export default router;

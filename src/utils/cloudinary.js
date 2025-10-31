@@ -19,8 +19,15 @@ const uploadOnCloudinary = async (localFilePath) => {
       resource_type: "auto" // auto-detect file type (image, video, etc.)
     });
 
+    //this is for test, once file upoad suceessfully then unlink it from our public folder
+    /*
+
     // If upload is successful, print the Cloudinary URL
     console.log("File is uploaded to Cloudinary:", response.url);
+    */
+
+    //now, if file upoad succesfully then unlink it from our public folder where we temparary store it
+    fs.unlinkSync(localFilePath)
 
     // Return the upload response (includes file URL and other info)
     return response;

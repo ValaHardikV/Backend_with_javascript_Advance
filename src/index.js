@@ -43,28 +43,46 @@ const app = express()
 */
 
 
+// ---------------- DATABASE CONNECTION NOTES ----------------
+// When connecting to a database, always remember two important things:
+// 1️⃣ Always use try-catch to handle connection errors properly.
+// 2️⃣ Database connections take time, so use async/await to wait for the connection.
+
+
 // ---------------- Method 2: Connect Database Using Separate DB File ----------------
+// (This is a cleaner and more professional way to connect your database.)
+
 
 // Import required packages and files
-import dotenv from "dotenv";
-import connectDB from "./db/index.js";
-import { app } from "./app.js";
+import dotenv from "dotenv";          // For loading environment variables from .env file
+import connectDB from "./db/index.js"; // Custom function that connects MongoDB (written in db/index.js)
+import { app } from "./app.js";        // Import the main Express app from app.js
 
-// Load environment variables from the .env file
+
+
+// ---------------- Load environment variables ----------------
+// dotenv loads all variables from .env into process.env
 dotenv.config({
-  path: './env' // path to your .env file
+  path: './.env' // Make sure the path is correct (your .env file should be in project root)
 });
 
-// Connect to MongoDB
+
+
+// ---------------- Connect to MongoDB ----------------
+// connectDB() is an async function that connects to MongoDB using mongoose
+// It returns a promise, so we use .then() and .catch() to handle success or failure.
 connectDB()
   .then(() => {
-    // Once database connection is successful,
-    // start the Express server and listen on the given port
+    // ✅ If connection is successful:
+    // Start the Express server and make it listen on the given PORT.
+    // process.env.PORT → value from .env file
+    // If not found, it uses default port 8000.
     app.listen(process.env.PORT || 8000, () => {
-      console.log(`Server is running at port : ${process.env.PORT}`);
+      console.log(`✅ Server is running at port : ${process.env.PORT}`);
     });
   })
   .catch((err) => {
-    // If database connection fails, show error in console
-    console.log("MongoDB connection failed !!!", err);
+    // ❌ If MongoDB connection fails:
+    // Print an error message to the console.
+    console.log("❌ MongoDB connection failed !!!", err);
   });

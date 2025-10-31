@@ -26,12 +26,23 @@ export {asyncHandler}
 
 // ------------------ METHOD 2 ------------------
 
-// This is another (shorter) way to handle async errors in Express
+// ---------------- ASYNCHANDLER FUNCTION ----------------
+// This function helps us handle errors in async functions automatically
+// without writing try-catch blocks again and again in every controller.
+
 const asyncHandler = (fn) => {
+  // fn → this is the async function (like a controller) we want to wrap
+
   return (req, res, next) => {
-    // Run the async function and handle errors using Promise.catch()
+    // Promise.resolve() makes sure that even if 'fn' returns a promise,
+    // it will be handled properly. If 'fn' throws an error or rejects,
+    // the .catch() part will automatically pass the error to Express.
+
     Promise.resolve(fn(req, res, next)).catch((err) => next(err));
+    // next(err) → sends the error to Express's default error handler or any
+    // custom error-handling middleware we define later.
   };
 };
 
+// Exporting the function so we can use it in other files (like controllers)
 export { asyncHandler };
