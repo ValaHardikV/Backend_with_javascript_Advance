@@ -6,7 +6,7 @@ import { Router } from "express";
 // Express Router helps create isolated route modules.
 // This keeps your main app.js file clean and organized.
 
-import { registerUser, loginUser, logoutUser } from "../controllers/user.controller.js";
+import { registerUser, loginUser, logoutUser , refreshAccessToken } from "../controllers/user.controller.js";
 // Import controller functions responsible for handling user-related requests
 // Each function will perform business logic such as registering, logging in, or logging out users.
 
@@ -94,6 +94,7 @@ router.route("/logout").post(
 );
 
 
+router.route("/refresh-token").post(refreshAccessToken)
 
 // -------------------------------------------------------------
 // Export the Router
