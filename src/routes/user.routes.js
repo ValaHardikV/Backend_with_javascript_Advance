@@ -6,7 +6,7 @@ import { Router } from "express";
 // Express Router helps create isolated route modules.
 // This keeps your main app.js file clean and organized.
 
-import { registerUser, loginUser, logoutUser , refreshAccessToken } from "../controllers/user.controller.js";
+import { registerUser, loginUser, logoutUser , refreshAccessToken, changeCurrentPassword, getCurrentUser, updateAccountDetails, updateUserAvatar, updateUserCovrImage, getUserChannelProfile, getWatchHistory } from "../controllers/user.controller.js";
 // Import controller functions responsible for handling user-related requests
 // Each function will perform business logic such as registering, logging in, or logging out users.
 
@@ -95,6 +95,17 @@ router.route("/logout").post(
 
 
 router.route("/refresh-token").post(refreshAccessToken)
+
+router.route("/change-password").post(verifyJWT, changeCurrentPassword)
+router.route("/current-user").get(verifyJWT, getCurrentUser)
+router.route("/update-account").patch(verifyJWT, updateAccountDetails)
+router.route("/avatar").patch(verifyJWT, upload.single("avatar"), updateUserAvatar)
+router.route("/cover-image").patch(verifyJWT, upload.single("/coverImage"), updateUserCovrImage)
+
+router.route("/c/:username").get(verifyJWT, getUserChannelProfile)
+
+router.route("/history").get(verifyJWT, getWatchHistory)
+
 
 // -------------------------------------------------------------
 // Export the Router
