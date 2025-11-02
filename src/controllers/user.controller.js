@@ -18,8 +18,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 // ApiResponse: A class that formats all successful API responses in a consistent way.
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-import jwt from "jsonwebtoken"
-import { use } from "react";
+import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
 
@@ -223,7 +222,7 @@ const logoutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
     req.user._id,  // Current logged-in user's ID (added by authentication middleware)
     {
-      $set: { refreshToken: undefined },
+      $unset: { refreshToken: 1 },
     },
     { new: true }  // Return updated user document
   );
